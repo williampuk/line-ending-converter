@@ -1,0 +1,18 @@
+{
+  "name": "line-ending-converter",
+  "main": "./lib/main",
+  "version": "0.1.0",
+  "description": "A very simple package that converts the line endings to specific format.",
+  "activationEvents": [
+    "line-ending-converter:convert-to-unix-format",
+    "line-ending-converter:convert-to-windows-format",
+    "line-ending-converter:convert-to-old-mac-format"
+  ],
+  "repository": "https://github.com/williampuk/line-ending-converter.git",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+  }
+}
