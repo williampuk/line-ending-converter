@@ -1,7 +1,7 @@
 {
   "name": "line-ending-converter",
   "main": "./lib/main",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A very simple package that converts the line endings to specific format.",
   "activationEvents": [
     "line-ending-converter:convert-to-unix-format",
@@ -13,6 +13,5 @@
   "engines": {
     "atom": ">0.50.0"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
