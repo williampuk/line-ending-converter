@@ -7,5 +7,5 @@ module.exports =
     @lineEndingConverter = new LineEndingConverter()
 
   deactivate: ->
-    @lineEndingConverter?.destroy()
+    @lineEndingConverter?.destroy?()
     @lineEndingConverter = null

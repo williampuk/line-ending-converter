@@ -14,17 +14,17 @@ class LineEndingConverter
 
   convertToUnixFormat: ->
     if editor = atom.workspace.getActiveEditor()
-      @_convert(editor, 'UNIX')
+      @convert(editor, 'UNIX')
 
   convertToWindowsFormat: ->
     if editor = atom.workspace.getActiveEditor()
-      @_convert(editor, 'WINDOWS')
+      @convert(editor, 'WINDOWS')
 
   convertToOldMacFormat: ->
     if editor = atom.workspace.getActiveEditor()
-      @_convert(editor, 'OLD_MAC')
+      @convert(editor, 'OLD_MAC')
 
-  _convert: (editor, format) ->
+  convert: (editor, format) ->
     buffer = editor.getBuffer()
     wholeRange = new Range buffer.getFirstPosition(), buffer.getEndPosition()
     textWithNewEol = buffer.getText().replace LineEndingConverter.EOL_REGEX, LineEndingConverter[format+'_FORMAT']
