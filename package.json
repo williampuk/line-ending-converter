@@ -1,7 +1,7 @@
 {
   "name": "line-ending-converter",
   "main": "./lib/main",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A very simple package that converts the line endings (EOL's) to Windows/Unix/Old Mac format.",
   "activationEvents": [
     "line-ending-converter:convert-to-unix-format",
