@@ -1,4 +1,4 @@
-{Range} = require 'atom'
+{Range, Point} = require 'atom'
 
 module.exports =
 class LineEndingConverter
@@ -26,6 +26,16 @@ class LineEndingConverter
 
   convert: (editor, format) ->
     buffer = editor.getBuffer()
-    wholeRange = new Range buffer.getFirstPosition(), buffer.getEndPosition()
-    textWithNewEol = buffer.getText().replace LineEndingConverter.EOL_REGEX, LineEndingConverter[format+'_FORMAT']
-    buffer.setTextInRange wholeRange, textWithNewEol, false
+    lastRowIndex = buffer.getLastRow()
+    targetEolFormat = LineEndingConverter[format+'_FORMAT']
+    buffer.transact ->
+      for rowIndex in [0...lastRowIndex]
+        do (rowIndex) ->
+          currEol = buffer.lineEndingForRow rowIndex
+          if currEol isnt targetEolFormat
+            lineEndingRange = new Range(
+              new Point(rowIndex, buffer.lineLengthForRow(rowIndex)),
+              new Point(rowIndex + 1, 0)
+            )
+            buffer.setTextInRange lineEndingRange, targetEolFormat, false
+          return
