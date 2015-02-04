@@ -1,6 +1,5 @@
 path = require 'path'
 fs = require 'fs'
-{WorkspaceView} = require 'atom'
 # Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
 #
 # To run a specific `it` or `describe` block add an `f` to the front (e.g. `fit`
@@ -9,11 +8,11 @@ fs = require 'fs'
 # Below expectations are commented out due to these expectations may not pass after uploading to git.
 
 describe "LineEndingConverter", ->
-  [workspaceView, activationPromise] = []
+  [workspace, workspaceView, activationPromise] = []
 
   beforeEach ->
-    atom.workspaceView = new WorkspaceView
-    workspaceView = atom.workspaceView
+    workspace = atom.workspace
+    workspaceView = atom.views.getView(atom.workspace)
     activationPromise = atom.packages.activatePackage 'line-ending-converter'
 
   describe "when the line-ending-converter:convert-to-unix-format event is triggered", ->
@@ -23,13 +22,14 @@ describe "LineEndingConverter", ->
       console.log resultText
 
       waitsForPromise ->
-        workspaceView.open(path.join __dirname, './fixtures/convert-to-unix/before.txt')
-        .then (editor) ->
-          beforeFileEditorView = atom.workspaceView.getActiveView()
-          beforeFileEditor = editor
-          beforeText = beforeFileEditor.getBuffer().getText()
-          beforeFileEditorView.trigger 'line-ending-converter:convert-to-unix-format'
-          activationPromise
+        activationPromise.then ->
+          workspace.open(path.join __dirname, './fixtures/convert-to-unix/before.txt')
+          .then (editor) ->
+            beforeFileEditor = editor
+            beforeFileEditorView = atom.views.getView(beforeFileEditor)
+            beforeText = beforeFileEditor.getBuffer().getText()
+            atom.commands.dispatch workspaceView,
+              'line-ending-converter:convert-to-unix-format'
 
       runs ->
         # expect(beforeText.match /\r\n|\r/g).not.toBe null
@@ -43,12 +43,13 @@ describe "LineEndingConverter", ->
       console.log resultText
 
       waitsForPromise ->
-        workspaceView.open(path.join __dirname, './fixtures/convert-to-windows/before.txt')
+        workspace.open(path.join __dirname, './fixtures/convert-to-windows/before.txt')
         .then (editor) ->
-          beforeFileEditorView = atom.workspaceView.getActiveView()
           beforeFileEditor = editor
+          beforeFileEditorView = atom.views.getView(beforeFileEditor)
           beforeText = beforeFileEditor.getBuffer().getText()
-          beforeFileEditorView.trigger 'line-ending-converter:convert-to-windows-format'
+          atom.commands.dispatch workspaceView,
+            'line-ending-converter:convert-to-windows-format'
           activationPromise
 
       runs ->
@@ -62,12 +63,13 @@ describe "LineEndingConverter", ->
       console.log resultText
 
       waitsForPromise ->
-        workspaceView.open(path.join __dirname, './fixtures/convert-to-old-mac/before.txt')
+        workspace.open(path.join __dirname, './fixtures/convert-to-old-mac/before.txt')
         .then (editor) ->
-          beforeFileEditorView = atom.workspaceView.getActiveView()
           beforeFileEditor = editor
+          beforeFileEditorView = atom.views.getView(beforeFileEditor)
           beforeText = beforeFileEditor.getBuffer().getText()
-          beforeFileEditorView.trigger 'line-ending-converter:convert-to-old-mac-format'
+          atom.commands.dispatch workspaceView,
+            'line-ending-converter:convert-to-old-mac-format'
           activationPromise
 
       runs ->

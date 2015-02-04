@@ -2,40 +2,36 @@
 
 module.exports =
 class LineEndingConverter
-  @EOL_REGEX: /\r\n|\n|\r/g
   @WINDOWS_FORMAT: '\r\n'
   @UNIX_FORMAT: '\n'
   @OLD_MAC_FORMAT: '\r'
 
   constructor: ->
-    atom.commands.add 'atom-workspace', 'line-ending-converter:convert-to-unix-format', => @convertToUnixFormat()
-    atom.commands.add 'atom-workspace', 'line-ending-converter:convert-to-windows-format', => @convertToWindowsFormat()
-    atom.commands.add 'atom-workspace', 'line-ending-converter:convert-to-old-mac-format', => @convertToOldMacFormat()
 
   convertToUnixFormat: ->
-    if editor = atom.workspace.getActiveEditor()
-      @convert(editor, 'UNIX')
+    if editor = atom.workspace.getActiveTextEditor()
+      @convert(editor, LineEndingConverter.UNIX_FORMAT)
 
   convertToWindowsFormat: ->
-    if editor = atom.workspace.getActiveEditor()
-      @convert(editor, 'WINDOWS')
+    if editor = atom.workspace.getActiveTextEditor()
+      @convert(editor, LineEndingConverter.WINDOWS_FORMAT)
 
   convertToOldMacFormat: ->
-    if editor = atom.workspace.getActiveEditor()
-      @convert(editor, 'OLD_MAC')
+    if editor = atom.workspace.getActiveTextEditor()
+      @convert(editor, LineEndingConverter.OLD_MAC_FORMAT)
 
   convert: (editor, format) ->
     buffer = editor.getBuffer()
     lastRowIndex = buffer.getLastRow()
-    targetEolFormat = LineEndingConverter[format+'_FORMAT']
     buffer.transact ->
       for rowIndex in [0...lastRowIndex]
         do (rowIndex) ->
           currEol = buffer.lineEndingForRow rowIndex
-          if currEol isnt targetEolFormat
+          if currEol isnt format
             lineEndingRange = new Range(
               new Point(rowIndex, buffer.lineLengthForRow(rowIndex)),
               new Point(rowIndex + 1, 0)
             )
-            buffer.setTextInRange lineEndingRange, targetEolFormat, false
+            buffer.setTextInRange lineEndingRange, format,
+              { normalizeLineEndings: false }
           return

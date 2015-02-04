@@ -3,15 +3,16 @@
   "main": "./lib/main",
   "version": "0.4.0",
   "description": "A very simple package that converts the line endings (EOL's) to Windows/Unix/Old Mac format.",
-  "activationEvents": [
-    "line-ending-converter:convert-to-unix-format",
-    "line-ending-converter:convert-to-windows-format",
-    "line-ending-converter:convert-to-old-mac-format"
+  "activationCommands": [
+    {"atom-workspace": "line-ending-converter:convert-to-unix-format"},
+    {"atom-workspace": "line-ending-converter:convert-to-windows-format"},
+    {"atom-workspace": "line-ending-converter:convert-to-old-mac-format"}
   ],
   "repository": "https://github.com/williampuk/line-ending-converter.git",
   "license": "MIT",
   "engines": {
     "atom": ">0.50.0"
   },
-  "dependencies": {}
+  "dependencies": {
+  }
 }
