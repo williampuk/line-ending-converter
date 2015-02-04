@@ -8,9 +8,9 @@ class LineEndingConverter
   @OLD_MAC_FORMAT: '\r'
 
   constructor: ->
-    atom.workspaceView.command 'line-ending-converter:convert-to-unix-format', => @convertToUnixFormat()
-    atom.workspaceView.command 'line-ending-converter:convert-to-windows-format', => @convertToWindowsFormat()
-    atom.workspaceView.command 'line-ending-converter:convert-to-old-mac-format', => @convertToOldMacFormat()
+    atom.commands.add 'atom-workspace', 'line-ending-converter:convert-to-unix-format', => @convertToUnixFormat()
+    atom.commands.add 'atom-workspace', 'line-ending-converter:convert-to-windows-format', => @convertToWindowsFormat()
+    atom.commands.add 'atom-workspace', 'line-ending-converter:convert-to-old-mac-format', => @convertToOldMacFormat()
 
   convertToUnixFormat: ->
     if editor = atom.workspace.getActiveEditor()
