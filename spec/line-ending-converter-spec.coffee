@@ -43,14 +43,14 @@ describe "LineEndingConverter", ->
       console.log resultText
 
       waitsForPromise ->
-        workspace.open(path.join __dirname, './fixtures/convert-to-windows/before.txt')
-        .then (editor) ->
-          beforeFileEditor = editor
-          beforeFileEditorView = atom.views.getView(beforeFileEditor)
-          beforeText = beforeFileEditor.getBuffer().getText()
-          atom.commands.dispatch workspaceView,
-            'line-ending-converter:convert-to-windows-format'
-          activationPromise
+        activationPromise.then ->
+          workspace.open(path.join __dirname, './fixtures/convert-to-windows/before.txt')
+          .then (editor) ->
+            beforeFileEditor = editor
+            beforeFileEditorView = atom.views.getView(beforeFileEditor)
+            beforeText = beforeFileEditor.getBuffer().getText()
+            atom.commands.dispatch workspaceView,
+              'line-ending-converter:convert-to-windows-format'
 
       runs ->
         # expect(beforeFileEditor.getBuffer().getText()).toBe resultText
@@ -63,14 +63,14 @@ describe "LineEndingConverter", ->
       console.log resultText
 
       waitsForPromise ->
-        workspace.open(path.join __dirname, './fixtures/convert-to-old-mac/before.txt')
-        .then (editor) ->
-          beforeFileEditor = editor
-          beforeFileEditorView = atom.views.getView(beforeFileEditor)
-          beforeText = beforeFileEditor.getBuffer().getText()
-          atom.commands.dispatch workspaceView,
-            'line-ending-converter:convert-to-old-mac-format'
-          activationPromise
+        activationPromise.then ->
+          workspace.open(path.join __dirname, './fixtures/convert-to-old-mac/before.txt')
+          .then (editor) ->
+            beforeFileEditor = editor
+            beforeFileEditorView = atom.views.getView(beforeFileEditor)
+            beforeText = beforeFileEditor.getBuffer().getText()
+            atom.commands.dispatch workspaceView,
+              'line-ending-converter:convert-to-old-mac-format'
 
       runs ->
         # expect(beforeText.match /\r\n|\n/g).not.toBe null
