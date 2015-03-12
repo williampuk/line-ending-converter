@@ -1,7 +1,7 @@
 {
   "name": "line-ending-converter",
   "main": "./lib/main",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A very simple package that converts line endings (EOL's) to Windows/Unix/Old Mac format.",
   "activationCommands": {
     "atom-workspace": [
