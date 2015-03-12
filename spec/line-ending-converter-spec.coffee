@@ -5,74 +5,58 @@ fs = require 'fs'
 # To run a specific `it` or `describe` block add an `f` to the front (e.g. `fit`
 # or `fdescribe`). Remove the `f` to unfocus the block.
 
-# Below expectations are commented out due to these expectations may not pass after uploading to git.
+describe "Converting line endings", ->
+  [editor, workspaceView, activationPromise] = []
 
-describe "LineEndingConverter", ->
-  [workspace, workspaceView, activationPromise] = []
+  SAMPLE_TEXT = "a\nb\rc\r\nd\r\ne\rf\ng"
+  TO_UNIX_RESULT = "a\nb\nc\nd\ne\nf\ng"
+  TO_WINDOWS_RESULT = "a\r\nb\r\nc\r\nd\r\ne\r\nf\r\ng"
+  TO_OLD_MAC_RESULT = "a\rb\rc\rd\re\rf\rg"
 
   beforeEach ->
-    workspace = atom.workspace
-    workspaceView = atom.views.getView(atom.workspace)
-    activationPromise = atom.packages.activatePackage 'line-ending-converter'
+    waitsForPromise ->
+      atom.workspace.open()
+    runs ->
+      editor = atom.workspace.getActiveTextEditor()
+      workspaceView = atom.views.getView(atom.workspace)
+      activationPromise = atom.packages.activatePackage 'line-ending-converter'
 
   describe "when the line-ending-converter:convert-to-unix-format event is triggered", ->
-    it "should convert all the line endings to unix format", ->
-      [beforeFileEditor, beforeFileEditorView, beforeText] = []
-      resultText = fs.readFileSync path.join(__dirname, './fixtures/convert-to-unix/after.txt'), 'utf8'
-      console.log resultText
+    it "should convert all the line endings to Unix format", ->
+      editor.setText SAMPLE_TEXT
+      atom.commands.dispatch workspaceView,
+        'line-ending-converter:convert-to-unix-format'
 
-      waitsForPromise ->
-        activationPromise.then ->
-          workspace.open(path.join __dirname, './fixtures/convert-to-unix/before.txt')
-          .then (editor) ->
-            beforeFileEditor = editor
-            beforeFileEditorView = atom.views.getView(beforeFileEditor)
-            beforeText = beforeFileEditor.getBuffer().getText()
-            atom.commands.dispatch workspaceView,
-              'line-ending-converter:convert-to-unix-format'
+      waitsForPromise -> activationPromise
 
       runs ->
-        # expect(beforeText.match /\r\n|\r/g).not.toBe null
-        # expect(beforeFileEditor.getBuffer().getText()).toBe resultText
-        expect(beforeFileEditor.getBuffer().getText().match /\r\n|\r/g).toBe null
+        expect(SAMPLE_TEXT.match /\r\n|\r\w/g).not.toBe null
+        expect(editor.getText()).toBe TO_UNIX_RESULT
+        expect(editor.getText().match /\r\n|\r\w/g).toBe null
 
   describe "when the line-ending-converter:convert-to-windows-format event is triggered", ->
-    it "should convert all the line endings to windows format", ->
-      [beforeFileEditor, beforeFileEditorView, beforeText] = []
-      resultText = fs.readFileSync path.join(__dirname, './fixtures/convert-to-windows/after.txt'), 'utf8'
-      console.log resultText
+    it "should convert all the line endings to Windows format", ->
+      editor.setText SAMPLE_TEXT
+      atom.commands.dispatch workspaceView,
+        'line-ending-converter:convert-to-windows-format'
 
-      waitsForPromise ->
-        activationPromise.then ->
-          workspace.open(path.join __dirname, './fixtures/convert-to-windows/before.txt')
-          .then (editor) ->
-            beforeFileEditor = editor
-            beforeFileEditorView = atom.views.getView(beforeFileEditor)
-            beforeText = beforeFileEditor.getBuffer().getText()
-            atom.commands.dispatch workspaceView,
-              'line-ending-converter:convert-to-windows-format'
+      waitsForPromise -> activationPromise
 
       runs ->
-        # expect(beforeFileEditor.getBuffer().getText()).toBe resultText
-        expect(beforeFileEditor.getBuffer().getText().match(/\r\n/g).length).toBe 17
+        expect(SAMPLE_TEXT.match /\w\n|\r\w/g).not.toBe null
+        expect(editor.getText()).toBe TO_WINDOWS_RESULT
+        expect(editor.getText().match /\w\n|\r\w/g).toBe null
+
 
   describe "when the line-ending-converter:convert-to-old-mac-format event is triggered", ->
     it "should convert all the line endings to old Mac format", ->
-      [beforeFileEditor, beforeFileEditorView, beforeText] = []
-      resultText = fs.readFileSync path.join(__dirname, './fixtures/convert-to-old-mac/after.txt'), 'utf8'
-      console.log resultText
+      editor.setText SAMPLE_TEXT
+      atom.commands.dispatch workspaceView,
+        'line-ending-converter:convert-to-old-mac-format'
 
-      waitsForPromise ->
-        activationPromise.then ->
-          workspace.open(path.join __dirname, './fixtures/convert-to-old-mac/before.txt')
-          .then (editor) ->
-            beforeFileEditor = editor
-            beforeFileEditorView = atom.views.getView(beforeFileEditor)
-            beforeText = beforeFileEditor.getBuffer().getText()
-            atom.commands.dispatch workspaceView,
-              'line-ending-converter:convert-to-old-mac-format'
+      waitsForPromise -> activationPromise
 
       runs ->
-        # expect(beforeText.match /\r\n|\n/g).not.toBe null
-        # expect(beforeFileEditor.getBuffer().getText()).toBe resultText
-        expect(beforeFileEditor.getBuffer().getText().match /\r\n|\n/g).toBe null
+        expect(SAMPLE_TEXT.match /\r\n|\w\n/g).not.toBe null
+        expect(editor.getText()).toBe TO_OLD_MAC_RESULT
+        expect(editor.getText().match /\r\n|\w\n/g).toBe null
