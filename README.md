@@ -10,8 +10,9 @@ In Menu,
 > Unix Format / Windows Format / Old Mac Format
 
 Or, in Context Menu (inside an active editor),
-> `Line Endings: To Unix` / `Line Endings: To Windows` /
-> `Line Endings: To Old Mac`
+> Convert Line Endings To =>
+>
+> Unix Format / Windows Format / Old Mac Format
 
 Or, in Command Palette (`cmd-shift-p` or `ctrl-shift-p`), type
 > Convert To Unix Format, or Convert To Windows Format, or Convert to Old Mac Format

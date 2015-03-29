@@ -2,16 +2,21 @@
 'context-menu':
   'atom-text-editor': [
     {
-      'label': 'Line Endings: To Unix'
-      'command': 'line-ending-converter:convert-to-unix-format'
-    }
-    {
-      'label': 'Line Endings: To Windows'
-      'command': 'line-ending-converter:convert-to-windows-format'
-    }
-    {
-      'label': 'Line Endings: To Old Mac'
-      'command': 'line-ending-converter:convert-to-old-mac-format'
+      'label': 'Convert Line Endings To'
+      'submenu': [
+        {
+          'label': 'Unix Format'
+          'command': 'line-ending-converter:convert-to-unix-format'
+        }
+        {
+          'label': 'Windows Format'
+          'command': 'line-ending-converter:convert-to-windows-format'
+        }
+        {
+          'label': 'Old Mac Format'
+          'command': 'line-ending-converter:convert-to-old-mac-format'
+        }
+      ]
     }
   ]
 'menu': [
