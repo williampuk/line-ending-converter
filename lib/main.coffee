@@ -1,11 +1,14 @@
-LineEndingConverter = require './line-ending-converter'
 {CompositeDisposable} = require 'atom'
 
 module.exports =
   lineEndingConverter: null
   subscriptions: null
-
+  config:
+    showOnStatusBar:
+      type: 'boolean'
+      default: true
   activate: (state) ->
+    LineEndingConverter = require './line-ending-converter'
     @lineEndingConverter = new LineEndingConverter()
 
     @subscriptions = new CompositeDisposable
@@ -21,6 +24,15 @@ module.exports =
       => @lineEndingConverter.convertToOldMacFormat()
 
   deactivate: ->
-    @subscriptions.dispose()
+    @subscriptions?.dispose()
     @subscriptions = null
+    @lineEndingConverterStatusView?.destroy()
+    @lineEndingConverterStatusView = null
+
     @lineEndingConverter = null
+
+  consumeStatusBar: (statusBar) ->
+    LineEndingConverterStatusView = require './line-ending-converter-status-view'
+    @lineEndingConverterStatusView =
+      new LineEndingConverterStatusView().initialize(statusBar)
+    @lineEndingConverterStatusView.attach()

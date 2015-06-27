@@ -2,9 +2,7 @@
 
 module.exports =
 class LineEndingConverter
-  @WINDOWS_FORMAT: '\r\n'
-  @UNIX_FORMAT: '\n'
-  @OLD_MAC_FORMAT: '\r'
+  [@WINDOWS_FORMAT, @UNIX_FORMAT, @OLD_MAC_FORMAT] = ['\r\n', '\n', '\r']
 
   constructor: ->
 

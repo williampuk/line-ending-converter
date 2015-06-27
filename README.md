@@ -1,4 +1,4 @@
-# Line Ending Converter package
+# Line Ending Converter package [![Build Status](https://travis-ci.org/williampuk/line-ending-converter.svg)](https://travis-ci.org/williampuk/line-ending-converter)
 
 This is a very simple package that converts the line endings (or EOL's) to Unix/Windows/Old Mac format.
 
