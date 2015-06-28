@@ -1,22 +1,22 @@
 {Range, Point} = require 'atom'
+[WINDOWS_FORMAT, UNIX_FORMAT, OLD_MAC_FORMAT] = ['\r\n', '\n', '\r']
 
 module.exports =
 class LineEndingConverter
-  [@WINDOWS_FORMAT, @UNIX_FORMAT, @OLD_MAC_FORMAT] = ['\r\n', '\n', '\r']
 
   constructor: ->
 
   convertToUnixFormat: ->
     if editor = atom.workspace.getActiveTextEditor()
-      @convert(editor, LineEndingConverter.UNIX_FORMAT)
+      @convert(editor, UNIX_FORMAT)
 
   convertToWindowsFormat: ->
     if editor = atom.workspace.getActiveTextEditor()
-      @convert(editor, LineEndingConverter.WINDOWS_FORMAT)
+      @convert(editor, WINDOWS_FORMAT)
 
   convertToOldMacFormat: ->
     if editor = atom.workspace.getActiveTextEditor()
-      @convert(editor, LineEndingConverter.OLD_MAC_FORMAT)
+      @convert(editor, OLD_MAC_FORMAT)
 
   convert: (editor, format) ->
     buffer = editor.getBuffer()
