@@ -4,9 +4,17 @@ module.exports =
   lineEndingConverter: null
   subscriptions: null
   config:
-    showOnStatusBar:
+    showEolInStatusBar:
+      title: 'Show File EOL In Status Bar'
+      description: 'Show in the status bar the EOL type of the first row of the file.'
       type: 'boolean'
       default: true
+    normalizeEolOnSave:
+      title: "Normalize File EOL's On Save"
+      type: 'string'
+      default: 'Disabled'
+      enum: ['Disabled', "Auto Detect (Use First Row's EOL)", 'Win (CRLF)', 'Unix (LF)', 'Old Mac (CR)']
+
   activate: (state) ->
     LineEndingConverter = require './line-ending-converter'
     @lineEndingConverter = new LineEndingConverter()
@@ -28,11 +36,10 @@ module.exports =
     @subscriptions = null
     @lineEndingConverterStatusView?.destroy()
     @lineEndingConverterStatusView = null
-
+    @lineEndingConverter?.destroy()
     @lineEndingConverter = null
 
   consumeStatusBar: (statusBar) ->
     LineEndingConverterStatusView = require './line-ending-converter-status-view'
-    @lineEndingConverterStatusView =
-      new LineEndingConverterStatusView().initialize(statusBar)
+    @lineEndingConverterStatusView = new LineEndingConverterStatusView().initialize(statusBar)
     @lineEndingConverterStatusView.attach()
