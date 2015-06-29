@@ -122,13 +122,13 @@ describe "Line Ending Converter", ->
         # set text to the non-active editor
         editor.setText 'abc\r\ndef\nghi\rjkl'
         editor.getBuffer().emitter.emit 'did-stop-changing'
-        expect(eolStatusView.eolLink.textContent).toBe DEFAULT_TEXT
+        expect(eolStatusView.eolLink.textContent).toBe WIN_TEXT
         editor.setText 'abc\rdef\r\nghi\njkl'
         editor.getBuffer().emitter.emit 'did-stop-changing'
-        expect(eolStatusView.eolLink.textContent).toBe DEFAULT_TEXT
+        expect(eolStatusView.eolLink.textContent).toBe WIN_TEXT
         editor.setText 'abc\ndef\r\nghi\rjkl'
         editor.getBuffer().emitter.emit 'did-stop-changing'
-        expect(eolStatusView.eolLink.textContent).toBe DEFAULT_TEXT
+        expect(eolStatusView.eolLink.textContent).toBe WIN_TEXT
 
     describe "when the package is deactivated", ->
       it "removes the line ending status view", ->
