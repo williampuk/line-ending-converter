@@ -10,7 +10,7 @@ module.exports =
       type: 'boolean'
       default: true
     normalizeEolOnSave:
-      title: "Normalize File EOL's On Save"
+      title: "Normalize File EOL's On Save (experimental)"
       type: 'string'
       default: 'Disabled'
       enum: ['Disabled', "Auto Detect (Use First Row's EOL)", 'Win (CRLF)', 'Unix (LF)', 'Old Mac (CR)']
@@ -21,13 +21,13 @@ module.exports =
 
     @subscriptions = new CompositeDisposable
 
-    @subscriptions.add atom.commands.add 'atom-workspace',
+    @subscriptions.add atom.commands.add 'atom-text-editor',
       'line-ending-converter:convert-to-unix-format',
       => @lineEndingConverter.convertToUnixFormat()
-    @subscriptions.add atom.commands.add 'atom-workspace',
+    @subscriptions.add atom.commands.add 'atom-text-editor',
       'line-ending-converter:convert-to-windows-format',
       => @lineEndingConverter.convertToWindowsFormat()
-    @subscriptions.add atom.commands.add 'atom-workspace',
+    @subscriptions.add atom.commands.add 'atom-text-editor',
       'line-ending-converter:convert-to-old-mac-format',
       => @lineEndingConverter.convertToOldMacFormat()
 
