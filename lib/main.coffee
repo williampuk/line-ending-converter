@@ -10,7 +10,7 @@ module.exports =
       type: 'boolean'
       default: true
     normalizeEolOnSave:
-      title: "Normalize File EOL's On Save (experimental)"
+      title: "(Experimental!) Normalize File EOL's On Save"
       type: 'string'
       default: 'Disabled'
       enum: ['Disabled', "Auto Detect (Use First Row's EOL)", 'Win (CRLF)', 'Unix (LF)', 'Old Mac (CR)']

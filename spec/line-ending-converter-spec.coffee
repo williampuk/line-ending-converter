@@ -18,6 +18,7 @@ describe "Line Ending Converter", ->
 
   beforeEach ->
     workspaceView = atom.views.getView atom.workspace
+    atom.config.set 'line-ending-converter.showEolInStatusBar', true
 
     waitsForPromise ->
       atom.workspace.open()
@@ -131,7 +132,23 @@ describe "Line Ending Converter", ->
         expect(eolStatusView.eolLink.textContent).toBe WIN_TEXT
 
     describe "when the package is deactivated", ->
-      it "removes the line ending status view", ->
+      it "removes the status view and subscriptions", ->
+        expect(eolTile?).toBeTruthy()
         spyOn eolTile, 'destroy'
+        # This is atom internal property, can be broken at any time in the future
+        eventCount = editor?.getBuffer()?.emitter.handlersByEventName['did-stop-changing'].length
+
         atom.packages.deactivatePackage 'line-ending-converter'
         expect(eolTile.destroy).toHaveBeenCalled()
+        expect(editor?.getBuffer()?.emitter.handlersByEventName['did-stop-changing'].length).toBe(eventCount - 1)
+
+    describe "when the status view is disabled in setting", ->
+      it "removes the status view and subscriptions", ->
+        expect(eolTile?).toBeTruthy()
+        spyOn eolTile, 'destroy'
+        # This is atom internal property, can be broken at any time in the future
+        eventCount = editor?.getBuffer()?.emitter.handlersByEventName['did-stop-changing'].length
+
+        atom.config.set 'line-ending-converter.showEolInStatusBar', false
+        expect(eolTile.destroy).toHaveBeenCalled()
+        expect(editor?.getBuffer()?.emitter.handlersByEventName['did-stop-changing'].length).toBe(eventCount - 1)

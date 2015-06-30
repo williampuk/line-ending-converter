@@ -6,8 +6,8 @@ DEFAULT_TEXT = UNIX_TEXT
 class LineEndingConverterStatusView extends HTMLDivElement
   initialize: (@statusBar) ->
     @classList.add('eol-status', 'inline-block')
-    @eolLink = document.createElement('a')
-    @eolLink.href = '#'
+    @eolLink = document.createElement('span')
+    # @eolLink.href = '#'  #TODO make it a link <a> tag and support click to change
     @appendChild(@eolLink)
     @initConfigSubscriptions()
     this
@@ -22,11 +22,9 @@ class LineEndingConverterStatusView extends HTMLDivElement
 
   initConfigSubscriptions: ->
     @showConfigSubscription = atom.config.onDidChange 'line-ending-converter.showEolInStatusBar', ()=>
-      console.log 'config is changed'
       @attach()
 
   attach: ->
-    console.log 'attach is called'
     @tile?.destroy()
     if atom.config.get 'line-ending-converter.showEolInStatusBar'
       @initViewSubscriptions()
@@ -62,8 +60,7 @@ class LineEndingConverterStatusView extends HTMLDivElement
 
   setCurrentEolText: ->
     buffer = @getActiveTextEditor()?.getBuffer()
-    eolText = @getEolText(buffer?.lineEndingForRow(0))
-    console.log 'line ending: ' + eolText
+    eolText = if buffer? then @getEolText(buffer.lineEndingForRow(0)) else undefined
     if eolText?
       @eolLink.textContent = eolText
       @eolLink.dataset.eol = eolText
