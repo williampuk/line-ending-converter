@@ -11,7 +11,10 @@ It is enabled by default. You can disable it in the package setting.
 **Notes:** The EOL format being shown is the EOL format of the first row of the file. It cannot detect if the file is having inconsistent EOL formats.
 
 #### Perform conversion:
-In Menu,
+Status View,
+> Click the status view to open the list for conversion
+
+Or, in Menu,
 > `Packages` -> `Convert Line Endings To` -> `Unix Format` / `Windows Format` / `Old Mac Format`
 
 Or, in Context Menu (inside an active editor),
@@ -23,6 +26,6 @@ Or, in Command Palette (`cmd-shift-p` or `ctrl-shift-p`), type
 
 (Note: This will convert the line endings of the text in the active editor.)
 
-**Notes:** The conversion works only when the file has at least one EOL. If the file does not have any EOL's, the conversion would not persist, as the current implementation of Atom uses a default EOL (which appears to be the UNIX format) if there is no EOL found in the file.
+**Notes:** The conversion works only when the file has at least one EOL symbol. If the file does not have any EOL symbols, the conversion would not persist, as the current implementation of Atom uses a default EOL (which appears to be the UNIX format) if there is no EOL symbol found in the file.
 
 You can try to use the **experimental** feature "Normalize On Save" if you really need to have a consistent line ending across all files.

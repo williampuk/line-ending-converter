@@ -20,7 +20,9 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ___
-####Credits
+#### Credits
 ##### Grammar Selector package
 Atom core package 'grammar-selector' (https://github.com/atom/grammar-selector)
 was used as a reference design in some parts of this package.
+(See license at:
+https://raw.githubusercontent.com/atom/grammar-selector/master/LICENSE.md)
