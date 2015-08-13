@@ -7,7 +7,7 @@ DEFAULT_TEXT = UNIX_TEXT
 # EOL status view in the status Bar
 class LineEndingConverterStatusView extends HTMLDivElement
   initialize: (@statusBar) ->
-    @classList.add('eol-status', 'inline-block')
+    @classList.add('line-ending-status', 'inline-block')
     @eolLink = document.createElement('a')
     @eolLink.href = '#'
     @appendChild(@eolLink)
