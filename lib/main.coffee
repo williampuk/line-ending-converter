@@ -1,8 +1,10 @@
 {CompositeDisposable} = require 'atom'
+lineEndingConverter = null
+subscriptions = null
+lineEndingConverterStatusView = null
+lineEndingConverterListView = null
 
 module.exports =
-  lineEndingConverter: null
-  subscriptions: null
   config:
     showEolInStatusBar:
       title: 'Show File EOL In Status Bar'
@@ -17,44 +19,40 @@ module.exports =
 
   activate: (state) ->
     LineEndingConverter = require './line-ending-converter'
-    @lineEndingConverter = new LineEndingConverter()
+    lineEndingConverter = new LineEndingConverter()
 
-    @subscriptions = new CompositeDisposable
+    subscriptions = new CompositeDisposable
 
-    @subscriptions.add atom.commands.add 'atom-text-editor',
-      'line-ending-converter:convert-to-unix-format',
-      => @lineEndingConverter.convertToUnixFormat()
-    @subscriptions.add atom.commands.add 'atom-text-editor',
-      'line-ending-converter:convert-to-windows-format',
-      => @lineEndingConverter.convertToWindowsFormat()
-    @subscriptions.add atom.commands.add 'atom-text-editor',
-      'line-ending-converter:convert-to-old-mac-format',
-      => @lineEndingConverter.convertToOldMacFormat()
+    subscriptions.add atom.commands.add 'atom-text-editor',
+      'line-ending-converter:convert-to-unix-format', -> lineEndingConverter?.convertToUnixFormat()
+    subscriptions.add atom.commands.add 'atom-text-editor',
+      'line-ending-converter:convert-to-windows-format', -> lineEndingConverter?.convertToWindowsFormat()
+    subscriptions.add atom.commands.add 'atom-text-editor',
+      'line-ending-converter:convert-to-old-mac-format', -> lineEndingConverter?.convertToOldMacFormat()
 
-    @subscriptions.add atom.commands.add 'atom-text-editor',
-      'line-ending-converter-list-view:show',
-      => @createListView()
+    subscriptions.add atom.commands.add 'atom-text-editor',
+      'line-ending-converter-list-view:show', createListView
 
   deactivate: ->
-    @subscriptions?.dispose()
-    @subscriptions = null
+    subscriptions?.dispose()
+    subscriptions = null
 
-    @lineEndingConverterStatusView?.destroy()
-    @lineEndingConverterStatusView = null
+    lineEndingConverterStatusView?.destroy()
+    lineEndingConverterStatusView = null
 
-    @lineEndingConverter?.destroy()
-    @lineEndingConverter = null
+    lineEndingConverter?.destroy()
+    lineEndingConverter = null
 
-    @lineEndingConverterListView?.destroy()
-    @lineEndingConverterListView = null
+    lineEndingConverterListView?.destroy()
+    lineEndingConverterListView = null
 
   consumeStatusBar: (statusBar) ->
     LineEndingConverterStatusView = require './line-ending-converter-status-view'
-    @lineEndingConverterStatusView = new LineEndingConverterStatusView().initialize(statusBar)
-    @lineEndingConverterStatusView.attach()
+    lineEndingConverterStatusView = new LineEndingConverterStatusView().initialize(statusBar)
+    lineEndingConverterStatusView.attach()
 
-  createListView: ->
-    unless @lineEndingConverterListView?
-      LineEndingConverterListView = require './line-ending-converter-list-view'
-      @lineEndingConverterListView = new LineEndingConverterListView()
-    @lineEndingConverterListView.toggle()
+createListView = ->
+  unless lineEndingConverterListView?
+    LineEndingConverterListView = require './line-ending-converter-list-view'
+    lineEndingConverterListView = new LineEndingConverterListView()
+  lineEndingConverterListView.toggle()

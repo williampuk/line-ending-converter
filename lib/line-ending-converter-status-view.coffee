@@ -23,8 +23,8 @@ class LineEndingConverterStatusView extends HTMLDivElement
     return
 
   initConfigSubscriptions: ->
-    @showConfigSubscription = atom.config.onDidChange 'line-ending-converter.showEolInStatusBar', ()=>
-      @attach()
+    @showConfigSubscription =
+      atom.config.onDidChange 'line-ending-converter.showEolInStatusBar', () => @attach()
 
   attach: ->
     @tile?.destroy()
@@ -46,12 +46,13 @@ class LineEndingConverterStatusView extends HTMLDivElement
 
   initViewSubscriptions: ->
     @disposeViewSubscriptions()
-    @activeItemSubscription = atom.workspace.onDidChangeActivePaneItem =>
-      @subscribeToActiveTextEditor()
+    @activeItemSubscription =
+      atom.workspace.onDidChangeActivePaneItem(=> @subscribeToActiveTextEditor())
 
-    clickHandler = => atom.commands.dispatch(atom.views.getView(@getActiveTextEditor()), 'line-ending-converter-list-view:show')
-    @addEventListener('click', clickHandler)
-    @clickSubscription = new Disposable => @removeEventListener('click', clickHandler)
+    clickHandler =
+      => atom.commands.dispatch(atom.views.getView(@getActiveTextEditor()), 'line-ending-converter-list-view:show')
+    @addEventListener 'click', clickHandler
+    @clickSubscription = new Disposable(=> @removeEventListener('click', clickHandler))
 
     @subscribeToActiveTextEditor()
     return
