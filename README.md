@@ -1,16 +1,19 @@
-# Line Ending Converter package [![Build Status](https://travis-ci.org/williampuk/line-ending-converter.svg)](https://travis-ci.org/williampuk/line-ending-converter)
+### Notice
+This package is no longer maintained since there is an official package (preinstalled with Atom) that enables line endings operations. You should uninstall this package to avoid any conflicts.
 
-### Features
+##### Line Ending Converter package [![Build Status](https://travis-ci.org/williampuk/line-ending-converter.svg)](https://travis-ci.org/williampuk/line-ending-converter)
+
+##### Features
 - Show the line ending (EOL) format of the current file in the status bar (see the note below for details)
 - Convert the line endings to Unix/Windows/Old Mac format.
 
-### How to use
-#### Status View Display:
+##### How to use
+##### Status View Display:
 It is enabled by default. You can disable it in the package setting.
 
 **Notes:** The EOL format being shown is the EOL format of the first row of the file. It cannot detect if the file is having inconsistent EOL formats.
 
-#### Perform conversion:
+##### Perform conversion:
 Status View,
 > Click the status view to open the list for conversion
 
